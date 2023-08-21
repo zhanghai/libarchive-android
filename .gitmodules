@@ -1,0 +1,18 @@
+[submodule "library/src/main/jni/external/libarchive"]
+	path = library/src/main/jni/external/libarchive
+	url = https://github.com/libarchive/libarchive.git
+[submodule "library/src/main/jni/external/bzip2"]
+	path = library/src/main/jni/external/bzip2
+	url = https://gitlab.com/bzip2/bzip2.git
+[submodule "library/src/main/jni/external/xz"]
+	path = library/src/main/jni/external/xz
+	url = https://github.com/tukaani-project/xz.git
+[submodule "library/src/main/jni/external/lz4"]
+	path = library/src/main/jni/external/lz4
+	url = https://github.com/lz4/lz4.git
+[submodule "library/src/main/jni/external/zstd"]
+	path = library/src/main/jni/external/zstd
+	url = https://github.com/facebook/zstd.git
+[submodule "library/src/main/jni/external/mbedtls"]
+	path = library/src/main/jni/external/mbedtls
+	url = https://github.com/Mbed-TLS/mbedtls.git

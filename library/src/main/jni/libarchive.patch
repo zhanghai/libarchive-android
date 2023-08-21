@@ -1,0 +1,176 @@
+--- archive_entry.c
++++ archive_entry.c
+@@ -1465,6 +1465,27 @@
+ 	}
+ }
+ 
++la_ssize_t
++archive_entry_digest_size(int type)
++{
++	switch (type) {
++	case ARCHIVE_ENTRY_DIGEST_MD5:
++		return sizeof(((struct ae_digest *) NULL)->md5);
++	case ARCHIVE_ENTRY_DIGEST_RMD160:
++		return sizeof(((struct ae_digest *) NULL)->rmd160);
++	case ARCHIVE_ENTRY_DIGEST_SHA1:
++		return sizeof(((struct ae_digest *) NULL)->sha1);
++	case ARCHIVE_ENTRY_DIGEST_SHA256:
++		return sizeof(((struct ae_digest *) NULL)->sha256);
++	case ARCHIVE_ENTRY_DIGEST_SHA384:
++		return sizeof(((struct ae_digest *) NULL)->sha384);
++	case ARCHIVE_ENTRY_DIGEST_SHA512:
++		return sizeof(((struct ae_digest *) NULL)->sha512);
++	default:
++		return -1;
++	}
++}
++
+ int
+ archive_entry_set_digest(struct archive_entry *entry, int type,
+     const unsigned char *digest)
+--- archive_entry.h
++++ archive_entry.h
+@@ -410,6 +410,7 @@
+ #define ARCHIVE_ENTRY_DIGEST_SHA512           0x00000006
+ 
+ __LA_DECL const unsigned char * archive_entry_digest(struct archive_entry *, int /* type */);
++__LA_DECL la_ssize_t archive_entry_digest_size(int /* type */);
+ 
+ /*
+  * ACL routines.  This used to simply store and return text-format ACL
+--- archive.h
++++ archive.h
+@@ -509,6 +509,8 @@
+ __LA_DECL int archive_read_append_callback_data(struct archive *, void *);
+ /* This prepends a data object to the beginning of list */
+ __LA_DECL int archive_read_prepend_callback_data(struct archive *, void *);
++__LA_DECL unsigned int archive_read_get_callback_data_size(struct archive *);
++__LA_DECL void *archive_read_get_callback_data(struct archive *, unsigned int);
+ 
+ /* Opening freezes the callbacks. */
+ __LA_DECL int archive_read_open1(struct archive *);
+@@ -1081,6 +1083,9 @@
+ 				__LA_DEPRECATED;
+ #endif
+ 
++__LA_DECL void *archive_get_user_data(struct archive *);
++__LA_DECL void archive_set_user_data(struct archive *, void *);
++
+ __LA_DECL int		 archive_errno(struct archive *);
+ __LA_DECL const char	*archive_error_string(struct archive *);
+ __LA_DECL const char	*archive_format_name(struct archive *);
+@@ -1091,6 +1096,8 @@
+ __LA_DECL void		 archive_copy_error(struct archive *dest,
+ 			    struct archive *src);
+ __LA_DECL int		 archive_file_count(struct archive *);
++__LA_DECL const char	*archive_charset(struct archive *);
++__LA_DECL int		 archive_set_charset(struct archive *, const char *);
+ 
+ /*
+  * ARCHIVE_MATCH API
+--- archive_private.h
++++ archive_private.h
+@@ -115,6 +115,8 @@
+ 	/* Number of file entries processed. */
+ 	int		  file_count;
+ 
++    void *user_data;
++
+ 	int		  archive_error_number;
+ 	const char	 *error;
+ 	struct archive_string	error_string;
+--- archive_read.c
++++ archive_read.c
+@@ -451,6 +451,23 @@
+ 	return archive_read_add_callback_data(_a, client_data, 0);
+ }
+ 
++unsigned int archive_read_get_callback_data_size(struct archive *_a)
++{
++	struct archive_read *a = (struct archive_read *)_a;
++	return a->client.nodes;
++}
++
++void *archive_read_get_callback_data(struct archive *_a, unsigned int iindex)
++{
++	struct archive_read *a = (struct archive_read *)_a;
++	if (iindex > a->client.nodes) {
++		archive_set_error(&a->archive, EINVAL,
++			"Invalid index specified.");
++		return NULL;
++	}
++	return a->client.dataset[iindex].data;
++}
++
+ static const struct archive_read_filter_vtable
+ none_reader_vtable = {
+ 	.read = client_read_proxy,
+--- archive_util.c
++++ archive_util.c
+@@ -100,6 +100,18 @@
+ 	return (ARCHIVE_VERSION_STRING);
+ }
+ 
++void *
++archive_get_user_data(struct archive *a)
++{
++	return a->user_data;
++}
++
++void
++archive_set_user_data(struct archive *a, void *user_data)
++{
++	a->user_data = user_data;
++}
++
+ int
+ archive_errno(struct archive *a)
+ {
+@@ -166,6 +178,35 @@
+ 	return archive_filter_bytes(a, 0);
+ }
+ 
++const char *
++archive_charset(struct archive *a)
++{
++	if (a->current_code != NULL && a->current_code[0] != '\0') {
++		return a->current_code;
++	} else {
++		return NULL;
++	}
++}
++
++int
++archive_set_charset(struct archive *a, const char *charset)
++{
++	if (a->current_code != NULL) {
++		free(a->current_code);
++	}
++	if (charset != NULL && charset[0] != '\0') {
++		a->current_code = strdup(charset);
++		if (a->current_code == NULL) {
++			archive_set_error(a, ENOMEM,
++				"Can't allocate data for charset");
++			return ARCHIVE_FATAL;
++		}
++	} else {
++		a->current_code = NULL;
++	}
++	return ARCHIVE_OK;
++}
++
+ void
+ archive_clear_error(struct archive *a)
+ {
+--- archive_write_set_format_zip.c
++++ archive_write_set_format_zip.c
+@@ -651,6 +651,9 @@
+ 			if (strcmp(archive_string_conversion_charset_name(
+ 					zip->opt_sconv), "UTF-8") == 0)
+ 				zip->entry_flags |= ZIP_ENTRY_FLAG_UTF8_NAME;
++		} else if (a->archive.current_code != NULL
++				&& strcmp(a->archive.current_code, "UTF-8") == 0) {
++			zip->entry_flags |= ZIP_ENTRY_FLAG_UTF8_NAME;
+ #if HAVE_NL_LANGINFO
+ 		} else if (strcmp(nl_langinfo(CODESET), "UTF-8") == 0) {
+ 			zip->entry_flags |= ZIP_ENTRY_FLAG_UTF8_NAME;
