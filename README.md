@@ -24,4 +24,8 @@ implementation 'me.zhanghai.android.libarchive:library:1.0.0'
 ## Usage
 
 See [`Archive.java`](library/src/main/java/me/zhanghai/android/libarchive/Archive.java) and
-[`ArchiveEntry.java`](library/src/main/java/me/zhanghai/android/libarchive/ArchiveEntry.java).
+[`ArchiveEntry.java`](library/src/main/java/me/zhanghai/android/libarchive/ArchiveEntry.java), which
+contain the Java bindings for
+[`archive.h`](https://github.com/libarchive/libarchive/blob/master/libarchive/archive.h) and
+[`archive_entry.h`](https://github.com/libarchive/libarchive/blob/master/libarchive/archive_entry.h)
+.
