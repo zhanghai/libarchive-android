@@ -29,3 +29,7 @@ contain the Java bindings for
 [`archive.h`](https://github.com/libarchive/libarchive/blob/master/libarchive/archive.h) and
 [`archive_entry.h`](https://github.com/libarchive/libarchive/blob/master/libarchive/archive_entry.h)
 .
+
+See also
+[`MainActivity.java`](sample/src/main/java/me/zhanghai/android/libarchive/sample/MainActivity.java)
+for an example on how to use this library to read archive files.

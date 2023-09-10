@@ -143,6 +143,7 @@ public class MainActivity extends Activity {
             StringBuilder builder = new StringBuilder();
             String displayName = getUriDisplayName(uri);
             builder.append(displayName).append('\n');
+
             try (ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(uri, "r")) {
                 if (pfd == null) {
                     throw new IOException("ContentResolver.openFileDescriptor() returned null");
@@ -153,6 +154,7 @@ public class MainActivity extends Activity {
                             StandardCharsets.UTF_8.name().getBytes(StandardCharsets.UTF_8));
                     Archive.readSupportFilterAll(archive);
                     Archive.readSupportFormatAll(archive);
+
                     if (READ_WITH_CALLBACKS) {
                         Archive.readSetCallbackData(archive, pfd.getFileDescriptor());
                         ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
@@ -185,27 +187,33 @@ public class MainActivity extends Activity {
                     } else {
                         Archive.readOpenFd(archive, pfd.getFd(), 8192);
                     }
+
                     long entry = Archive.readNextHeader(archive);
                     String formatName = newStringFromBytes(Archive.formatName(archive));
                     int filterCount = Archive.filterCount(archive);
                     String filterName = filterCount > 1 ? newStringFromBytes(Archive.filterName(
                             archive, 0)) : null;
                     builder.append(formatName).append('\t').append(filterName).append('\n');
+
                     while (entry != 0) {
-                        String entryName = newStringFromBytes(ArchiveEntry.pathname(entry));
-                        ArchiveEntry.StructStat stat = ArchiveEntry.stat(entry);
-                        String entrySizeString = Formatter.formatShortFileSize(this, stat.stSize);
-                        long entryModifiedTime = getMillisFromTimes(stat.stMtim.tvSec,
-                                stat.stMtim.tvNsec);
+                        String entryName = getEntryString(ArchiveEntry.pathnameUtf8(entry),
+                                ArchiveEntry.pathname(entry));
+                        ArchiveEntry.StructStat entryStat = ArchiveEntry.stat(entry);
+                        String entrySizeString = Formatter.formatShortFileSize(this,
+                                entryStat.stSize);
+                        long entryModifiedTime = getMillisFromTimes(entryStat.stMtim.tvSec,
+                                entryStat.stMtim.tvNsec);
                         String entryModifiedTimeString = formatDateTime(entryModifiedTime);
                         builder.append(entrySizeString).append('\t').append(entryModifiedTimeString)
                                 .append('\t').append(entryName).append('\n');
+
                         entry = Archive.readNextHeader(archive);
                     }
                 } finally {
                     Archive.free(archive);
                 }
             }
+
             return builder.toString();
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,6 +240,11 @@ public class MainActivity extends Activity {
             return lastPathSegment;
         }
         return uri.toString();
+    }
+
+    @Nullable
+    private String getEntryString(@Nullable String utf8, @Nullable byte[] bytes) {
+        return utf8 != null ? utf8 : newStringFromBytes(bytes);
     }
 
     @Nullable
