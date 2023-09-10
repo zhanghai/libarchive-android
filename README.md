@@ -7,7 +7,7 @@ Android library with some Java binding.
 
 The bundled [libarchive](https://github.com/libarchive/libarchive) is built with
 [libz](https://developer.android.com/ndk/guides/stable_apis#zlib_compression),
-[libbz2](https://gitlab.com/bzip2/bzip), [liblzma](https://github.com/tukaani-project/xz),
+[libbz2](https://gitlab.com/bzip2/bzip2), [liblzma](https://github.com/tukaani-project/xz),
 [liblz4](https://github.com/lz4/lz4), [libzstd](https://github.com/facebook/zstd) and
 [libmbedcrypto](https://github.com/Mbed-TLS/mbedtls).
 
