@@ -149,6 +149,8 @@ public class MainActivity extends Activity {
                 }
                 long archive = Archive.readNew();
                 try {
+                    Archive.setCharset(archive,
+                            StandardCharsets.UTF_8.name().getBytes(StandardCharsets.UTF_8));
                     Archive.readSupportFilterAll(archive);
                     Archive.readSupportFormatAll(archive);
                     if (READ_WITH_CALLBACKS) {
