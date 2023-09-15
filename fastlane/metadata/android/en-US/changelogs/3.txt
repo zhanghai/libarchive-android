@@ -1,0 +1,1 @@
+- Fixed issue when writing 7z and some other formats on older Android platforms.
