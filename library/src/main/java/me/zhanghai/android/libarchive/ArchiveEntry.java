@@ -25,7 +25,7 @@ import androidx.annotation.Nullable;
 public class ArchiveEntry {
 
     static {
-        Archive.loadLibrary();
+        Archive.staticInit();
     }
 
     private ArchiveEntry() {}

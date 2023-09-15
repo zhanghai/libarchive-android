@@ -16,6 +16,9 @@
 
 package me.zhanghai.android.libarchive;
 
+import android.system.ErrnoException;
+import android.system.Os;
+
 import java.nio.ByteBuffer;
 
 import androidx.annotation.NonNull;
@@ -88,13 +91,37 @@ public class Archive {
     public static final int READ_FORMAT_ENCRYPTION_UNSUPPORTED = -2;
     public static final int READ_FORMAT_ENCRYPTION_DONT_KNOW = -1;
 
+    private static final String ENV_TMPDIR = "TMPDIR";
+    private static final String PROPERTY_TMPDIR = "java.io.tmpdir";
+
     static {
+        ensureTmpdirEnv();
         System.loadLibrary("archive-jni");
     }
 
-    private Archive() {}
+    private static void ensureTmpdirEnv() {
+        // The TMPDIR environment variable is required for writing formats like 7z which calls
+        // mkstemp().
+        // /tmp isn't available on Android, and /data/local/tmp is only accessible to Shell, so we
+        // need to set it to the app data cache directory, which we have to do manually on older
+        // platforms.
+        // See also
+        // https://android.googlesource.com/platform/frameworks/base/+/d5ccb038f69193fb63b5169d7adc5da19859c9d8
+        if (Os.getenv(ENV_TMPDIR) == null) {
+            String tmpdir = System.getProperty(PROPERTY_TMPDIR);
+            if (tmpdir != null) {
+                try {
+                    Os.setenv(ENV_TMPDIR, tmpdir, true);
+                } catch (ErrnoException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
-    static void loadLibrary() {}
+    static void staticInit() {}
+
+    private Archive() {}
 
     public static native int versionNumber();
     @NonNull
