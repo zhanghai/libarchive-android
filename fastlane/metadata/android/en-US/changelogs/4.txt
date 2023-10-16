@@ -1,0 +1,1 @@
+- Fixed issue when closing and freeing archives.
