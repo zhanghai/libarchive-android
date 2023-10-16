@@ -1721,8 +1721,8 @@ JNIEXPORT void JNICALL
 Java_me_zhanghai_android_libarchive_Archive_readClose(
         JNIEnv* env, jclass clazz, jlong javaArchive) {
     struct archive *archive = (struct archive *) javaArchive;
-    closeArchiveJniData(env, archive);
     int errorCode = archive_read_close(archive);
+    closeArchiveJniData(env, archive);
     if (errorCode) {
         throwArchiveExceptionFromError(env, archive);
     }
@@ -2518,8 +2518,8 @@ JNIEXPORT void JNICALL
 Java_me_zhanghai_android_libarchive_Archive_writeClose(
         JNIEnv *env, jclass clazz, jlong javaArchive) {
     struct archive *archive = (struct archive *) javaArchive;
-    closeArchiveJniData(env, archive);
     int errorCode = archive_write_close(archive);
+    closeArchiveJniData(env, archive);
     if (errorCode) {
         throwArchiveExceptionFromError(env, archive);
     }
@@ -2730,11 +2730,19 @@ JNIEXPORT void JNICALL
 Java_me_zhanghai_android_libarchive_Archive_free(
         JNIEnv* env, jclass clazz, jlong javaArchive) {
     struct archive *archive = (struct archive *) javaArchive;
-    // Must call archive_free() before freeArchiveJniData() because it may need to finish writing
-    // data.
-    int errorCode = archive_free(archive);
+    // archive_write_close() is the same as archive_read_close(), and we must call it before
+    // freeArchiveJniData() because it may need to finish writing data.
+    int closeErrorCode = archive_write_close(archive);
+    if (closeErrorCode) {
+        // Prevent archive_free() from trying to close again.
+        archive_write_fail(archive);
+    }
     freeArchiveJniData(env, archive);
-    if (errorCode) {
+    int freeErrorCode = archive_free(archive);
+    if (closeErrorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+    if (freeErrorCode) {
         throwArchiveExceptionFromError(env, archive);
     }
 }
