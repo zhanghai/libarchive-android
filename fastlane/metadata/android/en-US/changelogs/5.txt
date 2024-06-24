@@ -1,0 +1,3 @@
+- Added read/writeOpenMemoryUnsafe() for working with large memory buffers.
+- Fixed a parameter type in readSetSeekCallback().
+- Updated dependencies.
