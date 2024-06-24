@@ -1381,6 +1381,17 @@ Java_me_zhanghai_android_libarchive_Archive_readOpenMemory(
 }
 
 JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_readOpenMemoryUnsafe(
+        JNIEnv *env, jclass clazz, jlong javaArchive, jlong javaBuffer, jlong bufferSize) {
+    struct archive *archive = (struct archive *) javaArchive;
+    const void *buffer = (const void *) javaBuffer;
+    int errorCode = archive_read_open_memory(archive, buffer, bufferSize);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
+JNIEXPORT void JNICALL
 Java_me_zhanghai_android_libarchive_Archive_readOpenFd(
         JNIEnv *env, jclass clazz, jlong javaArchive, jint fd, jlong blockSize) {
     struct archive *archive = (struct archive *) javaArchive;
@@ -2461,6 +2472,28 @@ Java_me_zhanghai_android_libarchive_Archive_writeOpenMemory(
     if (errorCode) {
         throwArchiveExceptionFromError(env, archive);
     }
+}
+
+JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeOpenMemoryUnsafe(
+        JNIEnv *env, jclass clazz, jlong javaArchive, jlong javaBuffer, jlong bufferSize) {
+    struct archive *archive = (struct archive *) javaArchive;
+    struct ArchiveJniData *jniData = archive_get_user_data(archive);
+    jniData->writeOpenMemoryUsed = 0;
+    void *buffer = (void *) javaBuffer;
+    int errorCode = archive_write_open_memory(archive, buffer, bufferSize,
+            &jniData->writeOpenMemoryUsed);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeOpenMemoryGetUsed(
+        JNIEnv *env, jclass clazz, jlong javaArchive) {
+    struct archive *archive = (struct archive *) javaArchive;
+    struct ArchiveJniData *jniData = archive_get_user_data(archive);
+    return jniData->writeOpenMemoryUsed;
 }
 
 JNIEXPORT void JNICALL

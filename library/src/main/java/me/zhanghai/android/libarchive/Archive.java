@@ -312,6 +312,8 @@ public class Archive {
             long blockSize) throws ArchiveException;
     public static native void readOpenMemory(long archive, @NonNull ByteBuffer buffer)
             throws ArchiveException;
+    public static native void readOpenMemoryUnsafe(long archive, long buffer, long bufferSize)
+            throws ArchiveException;
     public static native void readOpenFd(long archive, int fd, long blockSize)
             throws ArchiveException;
 
@@ -424,6 +426,9 @@ public class Archive {
             throws ArchiveException;
     public static native void writeOpenMemory(long archive, @NonNull ByteBuffer buffer)
             throws ArchiveException;
+    public static native void writeOpenMemoryUnsafe(long archive, long buffer, long bufferSize)
+            throws ArchiveException;
+    public static native long writeOpenMemoryGetUsed(long archive) throws ArchiveException;
 
     public static native void writeHeader(long archive, long entry) throws ArchiveException;
     public static native void writeData(long archive, @NonNull ByteBuffer buffer)
