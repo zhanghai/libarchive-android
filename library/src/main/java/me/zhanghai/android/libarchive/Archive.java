@@ -263,7 +263,7 @@ public class Archive {
     public static native <T> void readSetReadCallback(long archive,
             @Nullable ReadCallback<T> callback) throws ArchiveException;
     public static native <T> void readSetSeekCallback(long archive,
-            @Nullable SeekCallback<?> callback) throws ArchiveException;
+            @Nullable SeekCallback<T> callback) throws ArchiveException;
     public static native <T> void readSetSkipCallback(long archive,
             @Nullable SkipCallback<T> callback) throws ArchiveException;
     public static native <T> void readSetCloseCallback(long archive,
