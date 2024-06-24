@@ -376,7 +376,7 @@ public class Archive {
     public static native void writeAddFilterXz(long archive) throws ArchiveException;
     public static native void writeAddFilterZstd(long archive) throws ArchiveException;
 
-    public static native void writeSetFormat(long archive, int format_code) throws ArchiveException;
+    public static native void writeSetFormat(long archive, int code) throws ArchiveException;
     public static native void writeSetFormatByName(long archive, @NonNull byte[] name)
             throws ArchiveException;
     public static native void writeSetFormat7zip(long archive) throws ArchiveException;
