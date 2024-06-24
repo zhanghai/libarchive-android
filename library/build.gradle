@@ -20,7 +20,7 @@ android {
     namespace 'me.zhanghai.android.libarchive'
     buildToolsVersion = '34.0.0'
     compileSdk 34
-    ndkVersion '26.2.11394342'
+    ndkVersion '26.3.11579264'
     defaultConfig {
         minSdk 21
         targetSdk 34
@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.7.1'
+    implementation 'androidx.annotation:annotation:1.8.0'
 }
 
 apply plugin: 'com.vanniktech.maven.publish'
