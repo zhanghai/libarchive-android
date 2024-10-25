@@ -3030,6 +3030,13 @@ Java_me_zhanghai_android_libarchive_ArchiveEntry_filetype(
     return archive_entry_filetype(entry);
 }
 
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_filetypeIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_filetype_is_set(entry) != 0;
+}
+
 JNIEXPORT jlong JNICALL
 Java_me_zhanghai_android_libarchive_ArchiveEntry_fflagsSet(
         JNIEnv *env, jclass clazz, jlong javaEntry) {
@@ -3065,6 +3072,13 @@ Java_me_zhanghai_android_libarchive_ArchiveEntry_gid(
     return archive_entry_gid(entry);
 }
 
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_gidIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_gid_is_set(entry) != 0;
+}
+
 JNIEXPORT jbyteArray JNICALL
 Java_me_zhanghai_android_libarchive_ArchiveEntry_gname(
         JNIEnv *env, jclass clazz, jlong javaEntry) {
@@ -3095,6 +3109,13 @@ Java_me_zhanghai_android_libarchive_ArchiveEntry_hardlinkUtf8(
     struct archive_entry *entry = (struct archive_entry *) javaEntry;
     const char *hardlinkUtf8 = archive_entry_hardlink_utf8(entry);
     return (*env)->NewStringUTF(env, hardlinkUtf8);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_hardlinkIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_hardlink_is_set(entry) != 0;
 }
 
 JNIEXPORT jlong JNICALL
@@ -3167,6 +3188,20 @@ Java_me_zhanghai_android_libarchive_ArchiveEntry_perm(
         JNIEnv *env, jclass clazz, jlong javaEntry) {
     struct archive_entry *entry = (struct archive_entry *) javaEntry;
     return archive_entry_perm(entry);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_permIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_perm_is_set(entry) != 0;
+}
+
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_rdevIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_rdev_is_set(entry) != 0;
 }
 
 JNIEXPORT jlong JNICALL
@@ -3248,6 +3283,13 @@ Java_me_zhanghai_android_libarchive_ArchiveEntry_uid(
         JNIEnv *env, jclass clazz, jlong javaEntry) {
     struct archive_entry *entry = (struct archive_entry *) javaEntry;
     return archive_entry_uid(entry);
+}
+
+JNIEXPORT jboolean JNICALL
+Java_me_zhanghai_android_libarchive_ArchiveEntry_uidIsSet(
+        JNIEnv *env, jclass clazz, jlong javaEntry) {
+    struct archive_entry *entry = (struct archive_entry *) javaEntry;
+    return archive_entry_uid_is_set(entry) != 0;
 }
 
 JNIEXPORT jbyteArray JNICALL

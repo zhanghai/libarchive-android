@@ -70,11 +70,13 @@ public class ArchiveEntry {
     public static native long devmajor(long entry);
     public static native long devminor(long entry);
     public static native int filetype(long entry);
+    public static native boolean filetypeIsSet(long entry);
     public static native long fflagsSet(long entry);
     public static native long fflagsClear(long entry);
     @Nullable
     public static native byte[] fflagsText(long entry);
     public static native long gid(long entry);
+    public static native boolean gidIsSet(long entry);
     @Nullable
     public static native byte[] gname(long entry);
     @Nullable
@@ -83,6 +85,7 @@ public class ArchiveEntry {
     public static native byte[] hardlink(long entry);
     @Nullable
     public static native String hardlinkUtf8(long entry);
+    public static native boolean hardlinkIsSet(long entry);
     public static native long ino(long entry);
     public static native boolean inoIsSet(long entry);
     public static native int mode(long entry);
@@ -95,6 +98,8 @@ public class ArchiveEntry {
     @Nullable
     public static native String pathnameUtf8(long entry);
     public static native int perm(long entry);
+    public static native boolean permIsSet(long entry);
+    public static native boolean rdevIsSet(long entry);
     public static native long rdev(long entry);
     public static native long rdevmajor(long entry);
     public static native long rdevminor(long entry);
@@ -110,6 +115,7 @@ public class ArchiveEntry {
     public static native String symlinkUtf8(long entry);
     public static native int symlinkType(long entry);
     public static native long uid(long entry);
+    public static native boolean uidIsSet(long entry);
     @Nullable
     public static native byte[] uname(long entry);
     @Nullable
