@@ -1,0 +1,1 @@
+- Added bindings for new archive_entry_*_is_set functions.
