@@ -185,9 +185,7 @@ add_library(lzma STATIC
         src/main/jni/external/xz/src/liblzma/common/lzip_decoder.c
         # check/Makefile.inc
         src/main/jni/external/xz/src/liblzma/check/check.c
-        src/main/jni/external/xz/src/liblzma/check/crc32_table.c
         src/main/jni/external/xz/src/liblzma/check/crc32_fast.c
-        src/main/jni/external/xz/src/liblzma/check/crc64_table.c
         src/main/jni/external/xz/src/liblzma/check/crc64_fast.c
         src/main/jni/external/xz/src/liblzma/check/sha256.c
         # lz/Makefile.inc
