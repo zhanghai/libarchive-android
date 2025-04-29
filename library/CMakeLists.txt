@@ -218,6 +218,13 @@ add_library(lzma STATIC
         src/main/jni/external/xz/src/liblzma/simple/armthumb.c
         src/main/jni/external/xz/src/liblzma/simple/arm64.c
         src/main/jni/external/xz/src/liblzma/simple/sparc.c)
+# https://github.com/tukaani-project/xz/blob/master/src/liblzma/check/Makefile.inc
+if(CMAKE_ANDROID_ARCH_ABI STREQUAL "x86")
+    target_sources(lzma
+            PRIVATE
+            src/main/jni/external/xz/src/liblzma/check/crc32_x86.S
+            src/main/jni/external/xz/src/liblzma/check/crc64_x86.S)
+endif()
 target_compile_definitions(lzma
         PRIVATE
         HAVE_CONFIG_H
