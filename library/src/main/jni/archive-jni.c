@@ -836,6 +836,13 @@ Java_me_zhanghai_android_libarchive_Archive_libzstdVersion(
     return newBytesFromString(env, libzstdVersion);
 }
 
+JNIEXPORT jbyteArray JNICALL
+Java_me_zhanghai_android_libarchive_Archive_mbedtlsVersion(
+        JNIEnv *env, jclass clazz) {
+    const char *mbedtlsVersion = archive_mbedtls_version();
+    return newBytesFromString(env, mbedtlsVersion);
+}
+
 static bool mallocArchiveJniData(JNIEnv* env, struct archive *archive) {
     struct ArchiveJniData *jniData = calloc(1, sizeof(*jniData));
     if (!jniData) {
@@ -2286,6 +2293,46 @@ Java_me_zhanghai_android_libarchive_Archive_writeZipSetCompressionStore(
     }
 }
 
+JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeZipSetCompressionLzma(
+        JNIEnv *env, jclass clazz, jlong javaArchive) {
+    struct archive *archive = (struct archive *) javaArchive;
+    int errorCode = archive_write_zip_set_compression_lzma(archive);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeZipSetCompressionXz(
+        JNIEnv *env, jclass clazz, jlong javaArchive) {
+    struct archive *archive = (struct archive *) javaArchive;
+    int errorCode = archive_write_zip_set_compression_xz(archive);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeZipSetCompressionBzip2(
+        JNIEnv *env, jclass clazz, jlong javaArchive) {
+    struct archive *archive = (struct archive *) javaArchive;
+    int errorCode = archive_write_zip_set_compression_bzip2(archive);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
+JNIEXPORT void JNICALL
+Java_me_zhanghai_android_libarchive_Archive_writeZipSetCompressionZstd(
+        JNIEnv *env, jclass clazz, jlong javaArchive) {
+    struct archive *archive = (struct archive *) javaArchive;
+    int errorCode = archive_write_zip_set_compression_zstd(archive);
+    if (errorCode) {
+        throwArchiveExceptionFromError(env, archive);
+    }
+}
+
 static la_ssize_t archiveWriteCallback(struct archive *archive, void *client_data,
         const void *buffer, size_t length) {
     JNIEnv *env = getEnv();
@@ -2807,6 +2854,20 @@ Java_me_zhanghai_android_libarchive_Archive_filterName(
     struct archive *archive = (struct archive *) javaArchive;
     const char *filterName = archive_filter_name(archive, index);
     return newBytesFromString(env, filterName);
+}
+
+JNIEXPORT jlong JNICALL
+Java_me_zhanghai_android_libarchive_Archive_parseDate(
+        JNIEnv *env, jclass clazz, jlong javaNow, jbyteArray javaDateString) {
+    time_t now = (time_t) javaNow;
+    char *dateString = mallocStringFromBytes(env, javaDateString);
+    if (javaDateString && !dateString) {
+        throwArchiveException(env, ARCHIVE_FATAL, "mallocStringFromBytes");
+        return -1;
+    }
+    time_t date = archive_parse_date(now, dateString);
+    free(dateString);
+    return date;
 }
 
 JNIEXPORT jint JNICALL

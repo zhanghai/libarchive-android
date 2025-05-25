@@ -139,6 +139,8 @@ public class Archive {
     public static native byte[] liblz4Version();
     @NonNull
     public static native byte[] libzstdVersion();
+    @NonNull
+    public static native byte[] mbedtlsVersion();
 
     public static native long readNew() throws ArchiveException;
 
@@ -411,6 +413,10 @@ public class Archive {
 
     public static native void writeZipSetCompressionDeflate(long archive) throws ArchiveException;
     public static native void writeZipSetCompressionStore(long archive) throws ArchiveException;
+    public static native void writeZipSetCompressionLzma(long archive) throws ArchiveException;
+    public static native void writeZipSetCompressionXz(long archive) throws ArchiveException;
+    public static native void writeZipSetCompressionBzip2(long archive) throws ArchiveException;
+    public static native void writeZipSetCompressionZstd(long archive) throws ArchiveException;
 
     public static <T> void writeOpen(long archive, T clientData,
             @Nullable OpenCallback<T> openCallback, @NonNull WriteCallback<T> writeCallback,
@@ -462,6 +468,8 @@ public class Archive {
     public static native int filterCode(long archive, int index);
     @Nullable
     public static native byte[] filterName(long archive, int index);
+
+    public static native long parseDate(long now, @NonNull byte[] dateString);
 
     public static native int errno(long archive);
     @Nullable
