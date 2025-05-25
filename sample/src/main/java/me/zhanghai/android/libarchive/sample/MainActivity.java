@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
         String versionDetails = newStringFromBytes(Archive.versionDetails());
 
         mTextView = new TextView(this);
+        mTextView.setFitsSystemWindows(true);
         mTextView.setText(versionDetails);
         mHorizontalScrollView = new HorizontalScrollView(this);
         mHorizontalScrollView.setFillViewport(true);
