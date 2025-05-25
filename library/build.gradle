@@ -18,12 +18,12 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'me.zhanghai.android.libarchive'
-    buildToolsVersion = '35.0.1'
-    compileSdk 35
-    ndkVersion '27.2.12479018'
+    buildToolsVersion = '36.0.0'
+    compileSdk 36
+    ndkVersion '28.1.13356709'
     defaultConfig {
         minSdk 21
-        targetSdk 35
+        targetSdk 36
         consumerProguardFiles 'proguard-rules.pro'
         externalNativeBuild {
             cmake {
