@@ -1,6 +1,6 @@
 --- archive_entry.c
 +++ archive_entry.c
-@@ -1465,6 +1465,27 @@
+@@ -1597,6 +1597,27 @@
  	}
  }
  
@@ -30,17 +30,17 @@
      const unsigned char *digest)
 --- archive_entry.h
 +++ archive_entry.h
-@@ -410,6 +410,7 @@
+@@ -449,6 +449,7 @@
  #define ARCHIVE_ENTRY_DIGEST_SHA512           0x00000006
  
  __LA_DECL const unsigned char * archive_entry_digest(struct archive_entry *, int /* type */);
 +__LA_DECL la_ssize_t archive_entry_digest_size(int /* type */);
+ __LA_DECL int archive_entry_set_digest(struct archive_entry *, int, const unsigned char *);
  
  /*
-  * ACL routines.  This used to simply store and return text-format ACL
 --- archive.h
 +++ archive.h
-@@ -509,6 +509,8 @@
+@@ -548,6 +548,8 @@
  __LA_DECL int archive_read_append_callback_data(struct archive *, void *);
  /* This prepends a data object to the beginning of list */
  __LA_DECL int archive_read_prepend_callback_data(struct archive *, void *);
@@ -49,9 +49,9 @@
  
  /* Opening freezes the callbacks. */
  __LA_DECL int archive_read_open1(struct archive *);
-@@ -1081,6 +1083,9 @@
- 				__LA_DEPRECATED;
- #endif
+@@ -1132,6 +1134,9 @@
+  * NOTE: This is not intended for general date parsing, and the resulting timestamp should only be used for libarchive. */
+ __LA_DECL time_t	archive_parse_date(time_t now, const char *datestr);
  
 +__LA_DECL void *archive_get_user_data(struct archive *);
 +__LA_DECL void archive_set_user_data(struct archive *, void *);
@@ -59,7 +59,7 @@
  __LA_DECL int		 archive_errno(struct archive *);
  __LA_DECL const char	*archive_error_string(struct archive *);
  __LA_DECL const char	*archive_format_name(struct archive *);
-@@ -1091,6 +1096,8 @@
+@@ -1142,6 +1147,8 @@
  __LA_DECL void		 archive_copy_error(struct archive *dest,
  			    struct archive *src);
  __LA_DECL int		 archive_file_count(struct archive *);
@@ -70,7 +70,7 @@
   * ARCHIVE_MATCH API
 --- archive_private.h
 +++ archive_private.h
-@@ -115,6 +115,8 @@
+@@ -117,6 +117,8 @@
  	/* Number of file entries processed. */
  	int		  file_count;
  
@@ -81,7 +81,7 @@
  	struct archive_string	error_string;
 --- archive_read.c
 +++ archive_read.c
-@@ -451,6 +451,23 @@
+@@ -444,6 +444,23 @@
  	return archive_read_add_callback_data(_a, client_data, 0);
  }
  
@@ -107,7 +107,7 @@
  	.read = client_read_proxy,
 --- archive_util.c
 +++ archive_util.c
-@@ -100,6 +100,18 @@
+@@ -99,6 +99,18 @@
  	return (ARCHIVE_VERSION_STRING);
  }
  
@@ -126,7 +126,7 @@
  int
  archive_errno(struct archive *a)
  {
-@@ -166,6 +178,35 @@
+@@ -165,6 +177,35 @@
  	return archive_filter_bytes(a, 0);
  }
  
@@ -164,7 +164,7 @@
  {
 --- archive_write_set_format_zip.c
 +++ archive_write_set_format_zip.c
-@@ -651,6 +651,9 @@
+@@ -927,6 +927,9 @@
  			if (strcmp(archive_string_conversion_charset_name(
  					zip->opt_sconv), "UTF-8") == 0)
  				zip->entry_flags |= ZIP_ENTRY_FLAG_UTF8_NAME;

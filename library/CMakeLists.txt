@@ -443,11 +443,13 @@ function(configure_libarchive)
     set(HAVE_LZ4HC_H 1)
     set(HAVE_ZSTD_H 1)
     set(HAVE_LIBZSTD 1)
-    set(HAVE_LIBZSTD_COMPRESSOR 1)
+    set(HAVE_ZSTD_compressStream 1)
+    set(HAVE_ZSTD_minCLevel 1)
     set(HAVE_LIBMBEDCRYPTO 1)
     set(HAVE_MBEDTLS_AES_H 1)
     set(HAVE_MBEDTLS_MD_H 1)
     set(HAVE_MBEDTLS_PKCS5_H 1)
+    set(HAVE_MBEDTLS_VERSION_H 1)
     set(ARCHIVE_CRYPTO_MD5_MBEDTLS 1)
     set(ARCHIVE_CRYPTO_RMD160_MBEDTLS 1)
     set(ARCHIVE_CRYPTO_SHA1_MBEDTLS 1)
@@ -487,8 +489,6 @@ set(LIBARCHIVE_SOURCES
         "${LIBARCHIVE_SOURCE_DIR}/archive_entry_stat.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_entry_strmode.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_entry_xattr.c"
-        "${LIBARCHIVE_SOURCE_DIR}/archive_getdate.c"
-        "${LIBARCHIVE_SOURCE_DIR}/archive_getdate.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_hmac.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_hmac_private.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_match.c"
@@ -498,6 +498,7 @@ set(LIBARCHIVE_SOURCES
         "${LIBARCHIVE_SOURCE_DIR}/archive_options_private.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_pack_dev.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_pack_dev.c"
+        "${LIBARCHIVE_SOURCE_DIR}/archive_parse_date.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_pathmatch.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_pathmatch.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_platform.h"
@@ -566,6 +567,8 @@ set(LIBARCHIVE_SOURCES
         "${LIBARCHIVE_SOURCE_DIR}/archive_string.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_string_composition.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_string_sprintf.c"
+        "${LIBARCHIVE_SOURCE_DIR}/archive_time.c"
+        "${LIBARCHIVE_SOURCE_DIR}/archive_time_private.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_util.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_version_details.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_virtual.c"
@@ -617,6 +620,7 @@ set(LIBARCHIVE_SOURCES
         "${LIBARCHIVE_SOURCE_DIR}/archive_write_set_options.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_write_set_passphrase.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_xxhash.h"
+        "${LIBARCHIVE_SOURCE_DIR}/config_freebsd.h"
         "${LIBARCHIVE_SOURCE_DIR}/filter_fork_posix.c"
         "${LIBARCHIVE_SOURCE_DIR}/filter_fork.h"
         "${LIBARCHIVE_SOURCE_DIR}/xxhash.c"
