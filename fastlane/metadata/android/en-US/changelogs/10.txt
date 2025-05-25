@@ -1,0 +1,2 @@
+- Updated libarchive to 3.8.0 and added new functions.
+- Added support for 16 KB page sizes.
