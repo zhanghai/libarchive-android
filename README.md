@@ -18,7 +18,7 @@ This is not an officially supported Google product.
 Gradle:
 
 ```gradle
-implementation 'me.zhanghai.android.libarchive:library:1.1.5'
+implementation 'me.zhanghai.android.libarchive:library:1.1.6'
 ```
 
 ## Usage
