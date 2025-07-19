@@ -20,8 +20,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.10.0'
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.32.0'
+        classpath 'com.android.tools.build:gradle:8.11.1'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.34.0'
     }
 }
 
