@@ -19,7 +19,7 @@ apply plugin: 'com.android.application'
 android {
     namespace 'me.zhanghai.android.libarchive.sample'
     buildToolsVersion = '36.0.0'
-    compileSdk 36
+    compileSdk = 36
     defaultConfig {
         applicationId 'me.zhanghai.android.libarchive.sample'
         minSdk 21
