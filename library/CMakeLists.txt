@@ -325,19 +325,22 @@ target_include_directories(zstd
         PRIVATE
         src/main/jni/external/zstd/lib/common)
 
-# https://github.com/Mbed-TLS/mbedtls/blob/v2.28.4/CMakeLists.txt
-# https://github.com/Mbed-TLS/mbedtls/blob/v2.28.4/library/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.5/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.5/library/CMakeLists.txt
 add_library(mbedcrypto STATIC
         # src_crypto
         src/main/jni/external/mbedtls/library/aes.c
         src/main/jni/external/mbedtls/library/aesni.c
-        src/main/jni/external/mbedtls/library/arc4.c
+        src/main/jni/external/mbedtls/library/aesce.c
         src/main/jni/external/mbedtls/library/aria.c
         src/main/jni/external/mbedtls/library/asn1parse.c
         src/main/jni/external/mbedtls/library/asn1write.c
         src/main/jni/external/mbedtls/library/base64.c
         src/main/jni/external/mbedtls/library/bignum.c
-        src/main/jni/external/mbedtls/library/blowfish.c
+        src/main/jni/external/mbedtls/library/bignum_core.c
+        src/main/jni/external/mbedtls/library/bignum_mod.c
+        src/main/jni/external/mbedtls/library/bignum_mod_raw.c
+        src/main/jni/external/mbedtls/library/block_cipher.c
         src/main/jni/external/mbedtls/library/camellia.c
         src/main/jni/external/mbedtls/library/ccm.c
         src/main/jni/external/mbedtls/library/chacha20.c
@@ -354,25 +357,24 @@ add_library(mbedcrypto STATIC
         src/main/jni/external/mbedtls/library/ecjpake.c
         src/main/jni/external/mbedtls/library/ecp.c
         src/main/jni/external/mbedtls/library/ecp_curves.c
+        src/main/jni/external/mbedtls/library/ecp_curves_new.c
         src/main/jni/external/mbedtls/library/entropy.c
         src/main/jni/external/mbedtls/library/entropy_poll.c
         src/main/jni/external/mbedtls/library/error.c
         src/main/jni/external/mbedtls/library/gcm.c
-        src/main/jni/external/mbedtls/library/havege.c
         src/main/jni/external/mbedtls/library/hkdf.c
         src/main/jni/external/mbedtls/library/hmac_drbg.c
+        src/main/jni/external/mbedtls/library/lmots.c
+        src/main/jni/external/mbedtls/library/lms.c
         src/main/jni/external/mbedtls/library/md.c
-        src/main/jni/external/mbedtls/library/md2.c
-        src/main/jni/external/mbedtls/library/md4.c
         src/main/jni/external/mbedtls/library/md5.c
         src/main/jni/external/mbedtls/library/memory_buffer_alloc.c
-        src/main/jni/external/mbedtls/library/mps_reader.c
-        src/main/jni/external/mbedtls/library/mps_trace.c
         src/main/jni/external/mbedtls/library/nist_kw.c
         src/main/jni/external/mbedtls/library/oid.c
         src/main/jni/external/mbedtls/library/padlock.c
         src/main/jni/external/mbedtls/library/pem.c
         src/main/jni/external/mbedtls/library/pk.c
+        src/main/jni/external/mbedtls/library/pk_ecc.c
         src/main/jni/external/mbedtls/library/pk_wrap.c
         src/main/jni/external/mbedtls/library/pkcs12.c
         src/main/jni/external/mbedtls/library/pkcs5.c
@@ -385,31 +387,35 @@ add_library(mbedcrypto STATIC
         src/main/jni/external/mbedtls/library/psa_crypto_aead.c
         src/main/jni/external/mbedtls/library/psa_crypto_cipher.c
         src/main/jni/external/mbedtls/library/psa_crypto_client.c
-        src/main/jni/external/mbedtls/library/psa_crypto_driver_wrappers.c
+        src/main/jni/external/mbedtls/library/psa_crypto_driver_wrappers_no_static.c
         src/main/jni/external/mbedtls/library/psa_crypto_ecp.c
+        src/main/jni/external/mbedtls/library/psa_crypto_ffdh.c
         src/main/jni/external/mbedtls/library/psa_crypto_hash.c
         src/main/jni/external/mbedtls/library/psa_crypto_mac.c
+        src/main/jni/external/mbedtls/library/psa_crypto_pake.c
         src/main/jni/external/mbedtls/library/psa_crypto_rsa.c
         src/main/jni/external/mbedtls/library/psa_crypto_se.c
         src/main/jni/external/mbedtls/library/psa_crypto_slot_management.c
         src/main/jni/external/mbedtls/library/psa_crypto_storage.c
         src/main/jni/external/mbedtls/library/psa_its_file.c
+        src/main/jni/external/mbedtls/library/psa_util.c
         src/main/jni/external/mbedtls/library/ripemd160.c
         src/main/jni/external/mbedtls/library/rsa.c
-        src/main/jni/external/mbedtls/library/rsa_internal.c
+        src/main/jni/external/mbedtls/library/rsa_alt_helpers.c
         src/main/jni/external/mbedtls/library/sha1.c
         src/main/jni/external/mbedtls/library/sha256.c
         src/main/jni/external/mbedtls/library/sha512.c
+        src/main/jni/external/mbedtls/library/sha3.c
         src/main/jni/external/mbedtls/library/threading.c
         src/main/jni/external/mbedtls/library/timing.c
         src/main/jni/external/mbedtls/library/version.c
-        src/main/jni/external/mbedtls/library/version_features.c
-        src/main/jni/external/mbedtls/library/xtea.c)
+        src/main/jni/external/mbedtls/library/version_features.c)
 target_compile_options(mbedcrypto
         PRIVATE
         -Wall
         -Wextra
         -Wwrite-strings
+        -Wmissing-prototypes
         -Wpointer-arith
         -Wimplicit-fallthrough
         -Wshadow
@@ -418,7 +424,6 @@ target_compile_options(mbedcrypto
         -Wno-format-nonliteral
         -Werror
         -Wmissing-declarations
-        -Wmissing-prototypes
         -Wdocumentation
         -Wno-documentation-deprecated-sync
         -Wunreachable-code)
