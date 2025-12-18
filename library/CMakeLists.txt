@@ -57,6 +57,9 @@ target_include_directories(bz
 
 # https://github.com/tukaani-project/xz/blob/master/configure.ac
 function(configure_liblzma)
+    if(CMAKE_ANDROID_ARCH_ABI STREQUAL "arm64-v8a")
+        set(HAVE_ARM64_CRC32 1)
+    endif()
     set(HAVE_BSWAP_16 1)
     set(HAVE_BSWAP_32 1)
     set(HAVE_BSWAP_64 1)
@@ -69,6 +72,9 @@ function(configure_liblzma)
     if(CMAKE_ANDROID_ARCH_ABI MATCHES "x86|x86_64")
         set(HAVE_CPUID_H 1)
     endif()
+    if(CMAKE_ANDROID_ARCH_ABI STREQUAL "x86")
+        set(HAVE_CRC_X86_ASM 1)
+    endif()
     set(HAVE_DECODERS 1)
     set(HAVE_DECODER_ARM 1)
     set(HAVE_DECODER_ARM64 1)
@@ -78,6 +84,7 @@ function(configure_liblzma)
     set(HAVE_DECODER_LZMA1 1)
     set(HAVE_DECODER_LZMA2 1)
     set(HAVE_DECODER_POWERPC 1)
+    set(HAVE_DECODER_RISCV 1)
     set(HAVE_DECODER_SPARC 1)
     set(HAVE_DECODER_X86 1)
     set(HAVE_ENCODERS 1)
@@ -89,9 +96,12 @@ function(configure_liblzma)
     set(HAVE_ENCODER_LZMA1 1)
     set(HAVE_ENCODER_LZMA2 1)
     set(HAVE_ENCODER_POWERPC 1)
+    set(HAVE_ENCODER_RISCV 1)
     set(HAVE_ENCODER_SPARC 1)
     set(HAVE_ENCODER_X86 1)
     set(HAVE_FUNC_ATTRIBUTE_CONSTRUCTOR 1)
+    set(HAVE_GETAUXVAL 1)
+    set(HAVE_HWCAP_CRC32 1)
     if(CMAKE_ANDROID_ARCH_ABI MATCHES "x86|x86_64")
         set(HAVE_IMMINTRIN_H 1)
     endif()
@@ -217,7 +227,8 @@ add_library(lzma STATIC
         src/main/jni/external/xz/src/liblzma/simple/arm.c
         src/main/jni/external/xz/src/liblzma/simple/armthumb.c
         src/main/jni/external/xz/src/liblzma/simple/arm64.c
-        src/main/jni/external/xz/src/liblzma/simple/sparc.c)
+        src/main/jni/external/xz/src/liblzma/simple/sparc.c
+        src/main/jni/external/xz/src/liblzma/simple/riscv.c)
 # https://github.com/tukaani-project/xz/blob/master/src/liblzma/check/Makefile.inc
 if(CMAKE_ANDROID_ARCH_ABI STREQUAL "x86")
     target_sources(lzma
@@ -263,6 +274,7 @@ target_compile_options(lzma
         -Wdocumentation
         -Wduplicate-enum
         -Wempty-translation-unit
+        -Wextra-semi-stmt
         -Wflexible-array-extensions
         -Wmissing-variable-declarations
         -Wnewline-eof
