@@ -18,9 +18,9 @@ apply plugin: 'com.android.library'
 
 android {
     namespace 'me.zhanghai.android.libarchive'
-    buildToolsVersion = '36.0.0'
+    buildToolsVersion = '36.1.0'
     compileSdk = 36
-    ndkVersion '28.1.13356709'
+    ndkVersion '29.0.14206865'
     defaultConfig {
         minSdk 21
         targetSdk 36
