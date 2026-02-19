@@ -14,24 +14,31 @@
  * limitations under the License.
  */
 
-buildscript {
+pluginManagement {
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.2'
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.35.0'
+        gradlePluginPortal()
     }
 }
 
-allprojects {
+plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0" }
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
+rootProject.name = "libarchive-android"
+
+include(":library", ":sample")
