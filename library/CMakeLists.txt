@@ -336,8 +336,8 @@ target_include_directories(zstd
         PRIVATE
         src/main/jni/external/zstd/lib/common)
 
-# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.5/CMakeLists.txt
-# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.5/library/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.6/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.6/library/CMakeLists.txt
 add_library(mbedcrypto STATIC
         # src_crypto
         src/main/jni/external/mbedtls/library/aes.c
@@ -405,6 +405,7 @@ add_library(mbedcrypto STATIC
         src/main/jni/external/mbedtls/library/psa_crypto_mac.c
         src/main/jni/external/mbedtls/library/psa_crypto_pake.c
         src/main/jni/external/mbedtls/library/psa_crypto_rsa.c
+        src/main/jni/external/mbedtls/library/psa_crypto_random.c
         src/main/jni/external/mbedtls/library/psa_crypto_se.c
         src/main/jni/external/mbedtls/library/psa_crypto_slot_management.c
         src/main/jni/external/mbedtls/library/psa_crypto_storage.c
