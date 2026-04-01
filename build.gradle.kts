@@ -16,7 +16,7 @@
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    val androidGradlePluginVersion = "9.0.1"
+    val androidGradlePluginVersion = "9.1.0"
     id("com.android.application") version androidGradlePluginVersion apply false
     id("com.android.library") version androidGradlePluginVersion apply false
     id("com.vanniktech.maven.publish") version "0.36.0" apply false
