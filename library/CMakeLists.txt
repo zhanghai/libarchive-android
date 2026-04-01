@@ -267,7 +267,6 @@ target_compile_options(lzma
         -Wc99-compat
         -Wc11-extensions
         -Wc2x-extensions
-        -Wpre-c2x-compat
         -Warray-bounds-pointer-arithmetic
         -Wassign-enum
         -Wconditional-uninitialized
