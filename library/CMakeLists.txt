@@ -508,6 +508,7 @@ set(LIBARCHIVE_SOURCES
         "${LIBARCHIVE_SOURCE_DIR}/archive_entry_xattr.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_hmac.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_hmac_private.h"
+        "${LIBARCHIVE_SOURCE_DIR}/archive_integer.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_match.c"
         "${LIBARCHIVE_SOURCE_DIR}/archive_openssl_evp_private.h"
         "${LIBARCHIVE_SOURCE_DIR}/archive_openssl_hmac_private.h"
