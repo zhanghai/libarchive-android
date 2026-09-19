@@ -19,13 +19,14 @@ plugins { id("com.android.application") }
 android {
     namespace = "me.zhanghai.android.libarchive.sample"
     buildToolsVersion = "36.1.0"
-    compileSdk = 36
+    compileSdk = 37
+    compileSdkMinor = 2
     enableKotlin = false
 
     defaultConfig {
         applicationId = "me.zhanghai.android.libarchive.sample"
         minSdk = 21
-        targetSdk = 36
+        targetSdk = 37
         versionCode = providers.gradleProperty("VERSION_CODE").get().toInt()
         versionName = providers.gradleProperty("VERSION_NAME").get()
     }
@@ -48,5 +49,5 @@ android {
 
 dependencies {
     implementation(project(":library"))
-    implementation("androidx.annotation:annotation:1.9.1")
+    implementation("androidx.annotation:annotation:1.10.0")
 }

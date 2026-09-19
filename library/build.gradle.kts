@@ -22,8 +22,9 @@ plugins {
 android {
     namespace = "me.zhanghai.android.libarchive"
     buildToolsVersion = "36.1.0"
-    compileSdk = 36
-    ndkVersion = "29.0.14206865"
+    compileSdk = 37
+    compileSdkMinor = 2
+    ndkVersion = "30.0.16248370"
     enableKotlin = false
 
     defaultConfig {
@@ -40,4 +41,4 @@ android {
     externalNativeBuild { cmake { path = file("CMakeLists.txt") } }
 }
 
-dependencies { implementation("androidx.annotation:annotation:1.9.1") }
+dependencies { implementation("androidx.annotation:annotation:1.10.0") }
