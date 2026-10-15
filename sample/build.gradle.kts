@@ -18,7 +18,7 @@ plugins { id("com.android.application") }
 
 android {
     namespace = "me.zhanghai.android.libarchive.sample"
-    buildToolsVersion = "36.1.0"
+    buildToolsVersion = "37.0.0"
     compileSdk = 37
     compileSdkMinor = 2
     enableKotlin = false
@@ -49,5 +49,5 @@ android {
 
 dependencies {
     implementation(project(":library"))
-    implementation("androidx.annotation:annotation:1.10.0")
+    implementation("androidx.annotation:annotation:1.11.0")
 }

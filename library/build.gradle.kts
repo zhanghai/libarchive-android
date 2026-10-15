@@ -21,7 +21,7 @@ plugins {
 
 android {
     namespace = "me.zhanghai.android.libarchive"
-    buildToolsVersion = "36.1.0"
+    buildToolsVersion = "37.0.0"
     compileSdk = 37
     compileSdkMinor = 2
     ndkVersion = "30.0.16248370"
@@ -41,4 +41,4 @@ android {
     externalNativeBuild { cmake { path = file("CMakeLists.txt") } }
 }
 
-dependencies { implementation("androidx.annotation:annotation:1.10.0") }
+dependencies { implementation("androidx.annotation:annotation:1.11.0") }
