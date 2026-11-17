@@ -336,8 +336,8 @@ target_include_directories(zstd
         PRIVATE
         src/main/jni/external/zstd/lib/common)
 
-# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.6/CMakeLists.txt
-# https://github.com/Mbed-TLS/mbedtls/blob/v3.6.6/library/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/mbedtls-3.6.8/CMakeLists.txt
+# https://github.com/Mbed-TLS/mbedtls/blob/mbedtls-3.6.8/library/CMakeLists.txt
 add_library(mbedcrypto STATIC
         # src_crypto
         src/main/jni/external/mbedtls/library/aes.c
@@ -368,7 +368,6 @@ add_library(mbedcrypto STATIC
         src/main/jni/external/mbedtls/library/ecjpake.c
         src/main/jni/external/mbedtls/library/ecp.c
         src/main/jni/external/mbedtls/library/ecp_curves.c
-        src/main/jni/external/mbedtls/library/ecp_curves_new.c
         src/main/jni/external/mbedtls/library/entropy.c
         src/main/jni/external/mbedtls/library/entropy_poll.c
         src/main/jni/external/mbedtls/library/error.c
